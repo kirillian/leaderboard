@@ -1,0 +1,9 @@
+project:
+  name: &project_name leaderboard
+postgres:
+  username: *project_name
+  password: password
+forwarded_ports:
+  3000: 3000
+  25: 2225
+  1080: 1080
