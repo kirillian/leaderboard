@@ -6,6 +6,6 @@ class CreateScores < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_index :scores, :entity_id, :score
+    add_index :scores, [:entity_id, :score]
   end
 end
