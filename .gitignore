@@ -16,3 +16,9 @@
 cookbooks
 .vagrant
 vagrant.yml
+
+# DotEnv
+.env
+.env.development
+.env.test
+.env.production
