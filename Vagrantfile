@@ -28,9 +28,12 @@ forwarded_ports = settings["forwarded_ports"] || { :"3000" => 3000 }
 
 Vagrant.configure(2) do |config|
   # Prevent problematic caching of synced folders
-  config.trigger.after [:reload, :halt], stdout: true do
+  def remove_synced_folders_file(*args)
     `rm .vagrant/machines/default/vmware_fusion/synced_folders`
   end
+
+  config.trigger.before [:reload], stdout: true, &method(:remove_synced_folders_file)
+  config.trigger.after [:halt], stdout: true, &method(:remove_synced_folders_file)
 
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
@@ -120,10 +123,10 @@ Vagrant.configure(2) do |config|
         },
         pg_hba: [
           {
-            type: 'local',
+            type: 'host',
             db: 'all',
             user: postgresql_username,
-            addr: '',
+            addr: '127.0.0.1/32',
             method: 'trust'
           }
         ],
