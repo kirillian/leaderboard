@@ -5,7 +5,19 @@ require 'yaml'
 
 settings = YAML.load_file 'vagrant.yml'
 
+REQUIRED_PLUGINS = %w( vagrant-vbguest vagrant-librarian-chef vagrant-omnibus vagrant-triggers)
 PASSWORD_ERROR_MESSAGE = "You need to set your postgres password in vagrant.yml to something other than 'password'"
+
+def missing_plugins
+  @missing_plugins ||= REQUIRED_PLUGINS.reject{ |plugin| Vagrant.has_plugin? plugin }
+end
+
+missing_plugins.each do |plugin|
+  puts "The following plugin is required: #{plugin}"
+  puts "Install it with this command: 'vagrant plugin install #{plugin}'"
+end
+
+raise "Required Vagrant plugins not installed. Please install before continuing" if missing_plugins.any?
 
 raise PASSWORD_ERROR_MESSAGE if settings["postgres"]["password"] == "password"
 
@@ -15,6 +27,11 @@ postgresql_password = settings["postgres"]["password"]
 forwarded_ports = settings["forwarded_ports"] || { :"3000" => 3000 }
 
 Vagrant.configure(2) do |config|
+  # Prevent problematic caching of synced folders
+  config.trigger.after [:reload, :halt], stdout: true do
+    `rm .vagrant/machines/default/vmware_fusion/synced_folders`
+  end
+
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
@@ -49,6 +66,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
+
     chef.add_recipe "apt"
 
     chef.json = {
@@ -68,6 +86,7 @@ Vagrant.configure(2) do |config|
     chef.add_recipe "postgresql::ruby"
     chef.add_recipe "postgresql::server"
     chef.add_recipe "postgresql::client"
+    chef.add_recipe "redisio"
 
     # Install Ruby 2.1.2 and Bundler
     # Set an empty root password for MySQL to make things simple
@@ -112,7 +131,11 @@ Vagrant.configure(2) do |config|
           postgres: "dce2f13b5c9349d9cfe21ca6f8b278fc"
         }
       },
-      run_list: ["recipe[postgresql::server]"]
+      run_list: [
+        "recipe[postgresql::server]",
+        "recipe[redisio]",
+        "recipe[redisio::enable]"
+      ]
     }
   end
 
@@ -147,7 +170,18 @@ Vagrant.configure(2) do |config|
     rbenv rehash
   SCRIPT
 
-  config.vm.provision :shell, inline: "chown -R vagrant /home/vagrant/.rbenv"
+  add_redis_to_startup_script = <<-SCRIPT
+    #!/bin/bash
+
+    if [ ! -f ~/.vagrant_initialized ]
+    then
+      chown -R vagrant /home/vagrant/.rbenv
+      sudo update-rc.d redis6379 defaults
+      touch ~/.vagrant_initialized
+    fi
+  SCRIPT
+
+  config.vm.provision :shell, inline: add_redis_to_startup_script
   config.vm.provision :shell, inline: setup_postgres_script
   config.vm.provision :shell, privileged: false, inline: change_ssh_directory_script
   config.vm.provision :shell, privileged: false, inline: bundle_script
