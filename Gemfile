@@ -7,6 +7,7 @@ gem 'rails', '4.2.1'
 gem 'jbuilder', '~> 2.0'
 gem 'pg'
 gem 'responders'
+gem 'sidekiq'
 gem 'turbolinks'
 
 # CSS
