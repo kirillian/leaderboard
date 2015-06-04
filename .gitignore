@@ -22,3 +22,4 @@ vagrant.yml
 .env.development
 .env.test
 .env.production
+dump.rdb
