@@ -3,11 +3,19 @@ module API
     class EntitiesController < APIController
       include Concerns::EntityConcerns
 
+      before_action only: :index do |controller|
+        render_bad_request if dataset_requested_too_large?(search_params(params)[:size])
+      end
+
+      before_action only: :index do |controller|
+        render_not_found if offset_out_of_range?(search_params(params)[:offset])
+      end
+
       def index
         @entities = Entity.
           order("latest_score DESC").
-          limit(params[:size]).
-          offset(params[:offset]).decorate
+          limit(search_params(params)[:size]).
+          offset(search_params(params)[:offset]).decorate
 
         respond_with @entities
       end
@@ -43,6 +51,15 @@ module API
           render_internal_server_error
         end
       end
+
+      protected
+        def dataset_requested_too_large?(requested_size)
+          requested_size.to_i > 100
+        end
+
+        def offset_out_of_range?(requested_offset)
+          requested_offset.to_i > Entity.count
+        end
     end
   end
 end

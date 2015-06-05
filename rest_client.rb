@@ -3,8 +3,8 @@ require 'pry'
 
 class Leaderboard
 
-  def self.index
-    @result = RestClient.get root_url, accept: :json
+  def self.index(size=10, offset=0)
+    @result = RestClient.get root_url, params: { size: size, offset: offset }, accept: :json
   end
 
   def self.create(name, score)
