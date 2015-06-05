@@ -1,4 +1,6 @@
 class EntitiesController < ApplicationController
+  include Concerns::EntityConcerns
+
   respond_to :html
 
   def index
@@ -42,9 +44,5 @@ class EntitiesController < ApplicationController
     end
 
     redirect_to :index
-  end
-
-  def score_saver_params(params)
-    params.permit(:name, :score)
   end
 end

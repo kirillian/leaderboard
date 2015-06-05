@@ -1,6 +1,8 @@
 module API
   module V1
     class EntitiesController < APIController
+      include Concerns::EntityConcerns
+
       def index
         @entities = Entity.
           order("latest_score DESC").
@@ -24,9 +26,9 @@ module API
         @score_saver = ScoreSaver.new(score_saver_params(params))
 
         if @score_saver.save
-          render status: :ok, nothing: true
+          render_ok
         else
-          render status: :internal_server_error, nothing: true
+          render_internal_server_error
         end
       end
 
@@ -36,14 +38,10 @@ module API
         raise ActiveRecord::RecordNotFound if @entity.nil?
 
         if @entity.destroy
-          render status: :ok, nothing: true
+          render_ok
         else
-          render status: :internal_server_error, nothing: true
+          render_internal_server_error
         end
-      end
-
-      def score_saver_params(params)
-        params.permit(:name, :score)
       end
     end
   end
