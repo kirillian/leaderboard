@@ -9,7 +9,7 @@ RSpec::Matchers.define :be_memoized_as do |instance_variable_name|
       "#{instance.instance_variable_get(:"@#{instance_variable_name}")}"
   end
 
-  failure_message_when_negated do |relation|
+  failure_message_when_negated do |_relation|
     "expected that #{value} would not be memoized in @#{instance_variable_name} on #{instance}"
   end
 
