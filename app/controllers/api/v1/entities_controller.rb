@@ -11,7 +11,11 @@ module API
       end
 
       def show
-        @entity = Entity.find_by(name: params[:name]).decorate
+        entity = Entity.find_by(name: params[:name])
+
+        raise ActiveRecord::RecordNotFound if entity.nil?
+
+        @entity = entity.decorate
 
         respond_with @entity
       end
@@ -29,7 +33,7 @@ module API
       def destroy
         @entity = Entity.find_by(name: params[:name])
 
-        render(status: :not_found, nothing: true) if @entity.nil?; return if performed?
+        raise ActiveRecord::RecordNotFound if @entity.nil?
 
         if @entity.destroy
           render status: :ok, nothing: true
