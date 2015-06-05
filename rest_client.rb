@@ -28,4 +28,4 @@ end
 
 binding.pry
 
-Leaderboard.index
+sleep(1)
