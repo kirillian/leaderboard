@@ -3,19 +3,19 @@ require 'pry'
 
 class Leaderboard
 
-  def self.list
+  def self.index
     @result = RestClient.get root_url, accept: :json
   end
 
-  def self.add_score(name, score)
+  def self.create(name, score)
     @result = RestClient.post root_url, { name: name, score: score }.to_json, content_type: :json, accept: :json
   end
 
-  def self.delete_entity(name)
+  def self.destroy(name)
     @result = RestClient.delete [root_url,name].join("/"), accept: :json
   end
 
-  def self.get_entity(name)
+  def self.show(name)
     @result = RestClient.get root_url, params: { name: name }, accept: :json
   end
 
