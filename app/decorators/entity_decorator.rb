@@ -4,5 +4,4 @@ class EntityDecorator < Draper::Decorator
   def score
     latest_score
   end
-
 end

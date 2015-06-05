@@ -1,2 +1,26 @@
 AllCops:
   RunRailsCops: true
+  Exclude:
+    - 'bin/*'
+    - 'config/application.rb'
+    - 'config/boot.rb'
+    - 'config/environment.rb'
+    - 'config/environments/*'
+    - 'config/initializers/backtrace_silencers.rb'
+    - 'cookbooks/**/*'
+    - 'db/**/*'
+    - 'script/**/*'
+    - 'spec/spec_helper.rb'
+    - 'tmp/**/*'
+  Include:
+    - 'config/routes.rb'
+
+Lint/Debugger:
+  Exclude:
+    - 'rest_client.rb'
+
+Metrics/LineLength:
+  Max: 100
+
+Style/Documentation:
+  Enabled: false

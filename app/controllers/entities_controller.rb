@@ -4,10 +4,10 @@ class EntitiesController < ApplicationController
   respond_to :html
 
   def index
-    @entities = Entity.select(Arel.star).with_rank.
-      order("latest_score DESC").
-      limit(params[:size]).
-      offset(params[:offset]).decorate
+    @entities = Entity.select(Arel.star).with_rank
+                .order('latest_score DESC')
+                .limit(params[:size])
+                .offset(params[:offset]).decorate
 
     respond_with @entities
   end
@@ -33,16 +33,19 @@ class EntitiesController < ApplicationController
   def destroy
     @entity = Entity.find_by(name: params[:name])
 
-    if @entity && @entity.destroy
+    fail ActiveRecord::RecordNotFound if @entity.nil?
+
+    if @entity.destroy
       flash[:notice] = "You have removed '#{@entity.name}'"
     else
-      if @entity.nil?
-        flash[:error] = "Entity not found"
-      else
-        flash[:notice] = "Unable to delete '#{@entity.name}'"
-      end
+      flash[:notice] = "Unable to delete '#{@entity.name}'"
     end
 
+    redirect_to :index
+  end
+
+  def record_not_found
+    flash[:error] = 'Entity not found'
     redirect_to :index
   end
 end

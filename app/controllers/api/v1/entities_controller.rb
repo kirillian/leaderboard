@@ -3,19 +3,19 @@ module API
     class EntitiesController < APIController
       include Concerns::EntityConcerns
 
-      before_action only: :index do |controller|
+      before_action only: :index do |_controller|
         render_bad_request if dataset_requested_too_large?(search_params(params)[:size])
       end
 
-      before_action only: :index do |controller|
+      before_action only: :index do |_controller|
         render_not_found if offset_out_of_range?(search_params(params)[:offset])
       end
 
       def index
-        @entities = Entity.select(Arel.star).with_rank.
-          order("latest_score DESC").
-          limit(search_params(params)[:size]).
-          offset(search_params(params)[:offset]).decorate
+        @entities = Entity.select(Arel.star).with_rank
+                    .order('latest_score DESC')
+                    .limit(search_params(params)[:size])
+                    .offset(search_params(params)[:offset]).decorate
 
         respond_with @entities
       end
@@ -23,7 +23,7 @@ module API
       def show
         entity = Entity.find_by(name: params[:name])
 
-        raise ActiveRecord::RecordNotFound if entity.nil?
+        fail ActiveRecord::RecordNotFound if entity.nil?
 
         @entity = entity.decorate
 
@@ -43,7 +43,7 @@ module API
       def destroy
         @entity = Entity.find_by(name: params[:name])
 
-        raise ActiveRecord::RecordNotFound if @entity.nil?
+        fail ActiveRecord::RecordNotFound if @entity.nil?
 
         if @entity.destroy
           render_ok
@@ -53,13 +53,14 @@ module API
       end
 
       protected
-        def dataset_requested_too_large?(requested_size)
-          requested_size.to_i > 100
-        end
 
-        def offset_out_of_range?(requested_offset)
-          requested_offset.to_i > Entity.count
-        end
+      def dataset_requested_too_large?(requested_size)
+        requested_size.to_i > 100
+      end
+
+      def offset_out_of_range?(requested_offset)
+        requested_offset.to_i > Entity.count
+      end
     end
   end
 end

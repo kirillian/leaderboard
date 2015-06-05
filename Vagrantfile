@@ -9,7 +9,7 @@ REQUIRED_PLUGINS = %w( vagrant-vbguest vagrant-librarian-chef vagrant-omnibus va
 PASSWORD_ERROR_MESSAGE = "You need to set your postgres password in vagrant.yml to something other than 'password'"
 
 def missing_plugins
-  @missing_plugins ||= REQUIRED_PLUGINS.reject{ |plugin| Vagrant.has_plugin? plugin }
+  @missing_plugins ||= REQUIRED_PLUGINS.reject { |plugin| Vagrant.has_plugin? plugin }
 end
 
 missing_plugins.each do |plugin|
@@ -17,18 +17,18 @@ missing_plugins.each do |plugin|
   puts "Install it with this command: 'vagrant plugin install #{plugin}'"
 end
 
-raise "Required Vagrant plugins not installed. Please install before continuing" if missing_plugins.any?
+fail 'Required Vagrant plugins not installed. Please install before continuing' if missing_plugins.any?
 
-raise PASSWORD_ERROR_MESSAGE if settings["postgres"]["password"] == "password"
+fail PASSWORD_ERROR_MESSAGE if settings['postgres']['password'] == 'password'
 
-project_name = settings["project"]["name"]
-postgresql_username = settings["postgres"]["username"]
-postgresql_password = settings["postgres"]["password"]
-forwarded_ports = settings["forwarded_ports"] || { :"3000" => 3000 }
+project_name = settings['project']['name']
+postgresql_username = settings['postgres']['username']
+postgresql_password = settings['postgres']['password']
+forwarded_ports = settings['forwarded_ports'] || { "3000": 3000 }
 
 Vagrant.configure(2) do |config|
   # Prevent problematic caching of synced folders
-  def remove_synced_folders_file(*args)
+  def remove_synced_folders_file(*_args)
     `rm .vagrant/machines/default/vmware_fusion/synced_folders`
   end
 
@@ -38,19 +38,19 @@ Vagrant.configure(2) do |config|
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = 'ubuntu/trusty64'
 
-  config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder ".", "/home/vagrant/#{project_name}"
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.vm.synced_folder '.', "/home/vagrant/#{project_name}"
 
   config.vbguest.auto_update = true
 
   config.vm.provider :virtualbox do |vb|
-    vb.memory = "2048"
+    vb.memory = '2048'
   end
 
   forwarded_ports.each do |guest_port, host_port|
-    config.vm.network :forwarded_port, guest_ip: "0.0.0.0", guest: guest_port, host: host_port, autocorrect: true
+    config.vm.network :forwarded_port, guest_ip: '0.0.0.0', guest: guest_port, host: host_port, autocorrect: true
   end
 
   config.ssh.forward_agent = true
@@ -68,9 +68,9 @@ Vagrant.configure(2) do |config|
   # echo -n '<your_password>''postgres' | openssl md5 | sed -e 's/.* /md5/'
 
   config.vm.provision :chef_solo do |chef|
-    chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
+    chef.cookbooks_path = ['cookbooks', 'site-cookbooks']
 
-    chef.add_recipe "apt"
+    chef.add_recipe 'apt'
 
     chef.json = {
       apt: {
@@ -80,33 +80,33 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provision :chef_solo do |chef|
-    chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
+    chef.cookbooks_path = ['cookbooks', 'site-cookbooks']
 
-    chef.add_recipe "nodejs"
-    chef.add_recipe "ruby_build"
-    chef.add_recipe "rbenv::user"
-    chef.add_recipe "rbenv::vagrant"
-    chef.add_recipe "postgresql::ruby"
-    chef.add_recipe "postgresql::server"
-    chef.add_recipe "postgresql::client"
-    chef.add_recipe "redisio"
+    chef.add_recipe 'nodejs'
+    chef.add_recipe 'ruby_build'
+    chef.add_recipe 'rbenv::user'
+    chef.add_recipe 'rbenv::vagrant'
+    chef.add_recipe 'postgresql::ruby'
+    chef.add_recipe 'postgresql::server'
+    chef.add_recipe 'postgresql::client'
+    chef.add_recipe 'redisio'
 
     # Install Ruby 2.1.2 and Bundler
     # Set an empty root password for MySQL to make things simple
     chef.json = {
       rbenv: {
         user_installs: [{
-          user: "vagrant",
-          rubies: ["2.2.2"],
-          global: "2.2.2",
-          local: "2.2.2",
+          user: 'vagrant',
+          rubies: ['2.2.2'],
+          global: '2.2.2',
+          local: '2.2.2',
           gems: {
-            "2.2.2" => [
+            '2.2.2' => [
               {
-                name: "bundler"
+                name: 'bundler'
               },
               {
-                name: "mailcatcher"
+                name: 'mailcatcher'
               }
             ]
           }
@@ -115,10 +115,10 @@ Vagrant.configure(2) do |config|
       postgresql: {
         contrib: {
           extensions: [
-            "plpgsql"
+            'plpgsql'
           ],
           packages: [
-          "postgresql-contrib-9.3"
+            'postgresql-contrib-9.3'
           ]
         },
         pg_hba: [
@@ -131,13 +131,13 @@ Vagrant.configure(2) do |config|
           }
         ],
         password: {
-          postgres: "dce2f13b5c9349d9cfe21ca6f8b278fc"
+          postgres: 'dce2f13b5c9349d9cfe21ca6f8b278fc'
         }
       },
       run_list: [
-        "recipe[postgresql::server]",
-        "recipe[redisio]",
-        "recipe[redisio::enable]"
+        'recipe[postgresql::server]',
+        'recipe[redisio]',
+        'recipe[redisio::enable]'
       ]
     }
   end
@@ -188,5 +188,4 @@ Vagrant.configure(2) do |config|
   config.vm.provision :shell, inline: setup_postgres_script
   config.vm.provision :shell, privileged: false, inline: change_ssh_directory_script
   config.vm.provision :shell, privileged: false, inline: bundle_script
-
 end

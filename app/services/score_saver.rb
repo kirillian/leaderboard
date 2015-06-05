@@ -16,7 +16,7 @@ class ScoreSaver
 
   def save
     save!
-  rescue StandardError => e
+  rescue StandardError
     false
   end
 

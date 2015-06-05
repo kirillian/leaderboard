@@ -2,18 +2,16 @@ class Entity < ActiveRecord::Base
   has_many :scores, dependent: :destroy
 
   def self.with_rank
-    select(Arel::Nodes::Over.new(row_number, window_over_latest_score_desc).as("rank").to_sql)
+    select(Arel::Nodes::Over.new(row_number, window_over_latest_score_desc).as('rank').to_sql)
   end
 
-  protected
-
-    def self.window_over_latest_score_desc
-      Arel::Nodes::Window.new.tap do |window|
-        window.order(arel_table[:latest_score].desc)
-      end
+  def self.window_over_latest_score_desc
+    Arel::Nodes::Window.new.tap do |window|
+      window.order(arel_table[:latest_score].desc)
     end
+  end
 
-    def self.row_number
-      Arel::Nodes::SqlLiteral.new("row_number()")
-    end
+  def self.row_number
+    Arel::Nodes::SqlLiteral.new('row_number()')
+  end
 end
