@@ -16,4 +16,20 @@ class EntitiesController < ApplicationController
       render :new
     end
   end
+
+  def destroy
+    @entity = Entity.find_by(name: params[:name])
+
+    if @entity && @entity.destroy
+      flash[:notice] = "You have removed '#{@entity.name}'"
+    else
+      if @entity.nil?
+        flash[:error] = "Entity not found"
+      else
+        flash[:notice] = "Unable to delete '#{@entity.name}'"
+      end
+    end
+
+    redirect_to :index
+  end
 end
