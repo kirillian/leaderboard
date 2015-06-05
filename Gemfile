@@ -11,7 +11,7 @@ gem 'pg'
 gem 'rabl'
 gem 'responders'
 gem 'sidekiq'
-gem 'sinatra', :require => nil
+gem 'sinatra', require: nil
 gem 'turbolinks'
 
 # CSS
@@ -27,6 +27,7 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.0'
+  gem 'rubocop', require: false
   gem 'spring'
   gem 'web-console', '~> 2.0'
 end
