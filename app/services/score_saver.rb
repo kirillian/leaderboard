@@ -1,10 +1,12 @@
 class ScoreSaver
   attr_accessor :name, :value
 
+  # :nocov:
   def initialize(params)
     @name = params[:name]
     @value = params[:score]
   end
+  # :nocov:
 
   def entity
     @entity ||= Entity.find_or_initialize_by(name: name)
