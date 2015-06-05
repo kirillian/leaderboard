@@ -31,6 +31,7 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.0'
+  gem 'rspec-activejob'
   gem 'rubocop', require: false
   gem 'simplecov', require: false
   gem 'spring'

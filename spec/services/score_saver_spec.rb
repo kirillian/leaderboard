@@ -59,8 +59,7 @@ describe ScoreSaver do
       end
 
       it "enqueues an UpdateEntityLatestScoreJob" do
-        expect(UpdateEntityLatestScoreJob).to receive(:perform_later)
-        subject.save!
+        expect { subject.save! }.to enqueue_a(UpdateEntityLatestScoreJob)
       end
     end
   end
