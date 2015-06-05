@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'support/matchers/delegate_matchers'
 
 describe EntityDecorator do
   describe "Instance Methods" do

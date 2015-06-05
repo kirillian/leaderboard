@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'support/matchers/relation_matchers'
 
 describe Entity do
   describe 'Class Methods' do

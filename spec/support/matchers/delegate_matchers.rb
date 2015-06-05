@@ -16,7 +16,7 @@
 RSpec::Matchers.define :delegate do |method|
   match do |delegator|
     @method = method
-    @method_on_receiver ||= [@prefix, @method].compact.join("_")
+    @method_on_receiver ||= [@prefix, @method].compact.join('_')
     @delegator = delegator
 
     if @receiver.to_s.first == '@'
@@ -29,13 +29,13 @@ RSpec::Matchers.define :delegate do |method|
         @delegator.instance_variable_set(@receiver, old_value)
       end
     elsif @delegator.respond_to?(@receiver, true)
-      unless [0,-1].include?(@delegator.method(@receiver).arity)
-        raise "#{@delegator}'s' #{@receiver} method does not have zero or -1 arity (it expects parameters)"
+      unless [0, -1].include?(@delegator.method(@receiver).arity)
+        fail "#{@delegator}'s' #{@receiver} method does not have zero or -1 arity (it expects parameters)"
       end
       allow(@delegator).to receive(@receiver).and_return(receiver_double(@method_on_receiver))
       @delegator.send(@method) == :called
     else
-      raise "#{@delegator} does not respond to #{@receiver}"
+      fail "#{@delegator} does not respond to #{@receiver}"
     end
   end
 
@@ -61,9 +61,9 @@ RSpec::Matchers.define :delegate do |method|
     @prefix = prefix || @receiver
   end
 
-  chain(:as) do |method|
+  chain(:as) do |as|
     @different_method_on_receiver = true
-    @method_on_receiver = method
+    @method_on_receiver = as
   end
 
   def receiver_double(method)

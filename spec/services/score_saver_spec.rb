@@ -1,4 +1,6 @@
 require 'rails_helper'
+require 'support/active_record_helpers'
+require 'support/matchers/memoize_matchers'
 
 describe ScoreSaver do
   describe 'Instance Methods' do
