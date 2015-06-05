@@ -12,11 +12,11 @@ class Leaderboard
   end
 
   def self.delete_entity(name)
-    @result = RestClient.delete root_url, { name: name }, accept: :json
+    @result = RestClient.delete [root_url,name].join("/"), accept: :json
   end
 
   def self.get_entity(name)
-    @result = RestClient.get root_url, { name: name }, accept: :json
+    @result = RestClient.get root_url, params: { name: name }, accept: :json
   end
 
   protected
