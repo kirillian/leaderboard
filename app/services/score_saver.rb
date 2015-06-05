@@ -23,6 +23,7 @@ class ScoreSaver
   def save!
     ActiveRecord::Base.transaction do
       entity.save!
+      score.save!
       UpdateEntityLatestScoreJob.perform_later entity.id
     end
   end
