@@ -20,7 +20,7 @@ Lint/Debugger:
     - 'rest_client.rb'
 
 Metrics/LineLength:
-  Max: 100
+  Max: 120
 
 Style/Documentation:
   Enabled: false
