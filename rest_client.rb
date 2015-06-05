@@ -16,7 +16,7 @@ class Leaderboard
   end
 
   def self.show(name)
-    @result = RestClient.get root_url, params: { name: name }, accept: :json
+    @result = RestClient.get [root_url,name].join("/"), accept: :json
   end
 
   protected
@@ -28,4 +28,4 @@ end
 
 binding.pry
 
-Leaderboard.list
+Leaderboard.index
