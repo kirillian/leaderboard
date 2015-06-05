@@ -1,0 +1,1 @@
+attributes :score, :rank
