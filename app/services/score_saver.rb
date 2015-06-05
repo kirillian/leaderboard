@@ -24,7 +24,8 @@ class ScoreSaver
     ActiveRecord::Base.transaction do
       entity.save!
       score.save!
-      UpdateEntityLatestScoreJob.perform_later entity.id
     end
+
+    UpdateEntityLatestScoreJob.perform_later entity.id
   end
 end
