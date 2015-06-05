@@ -1,3 +1,2 @@
 collection @entities
-
-attributes :score, :rank
+attributes :name, :rank, :score
