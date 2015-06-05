@@ -1,17 +1,17 @@
 class ScoreSaver
-  attr_accessor :name, :score
+  attr_accessor :name, :value
 
   def initialize(params)
     @name = params[:name]
-    @score = params[:score]
+    @value = params[:score]
   end
 
   def entity
-    Entity.find_or_create_by(:name)
+    @entity ||= Entity.find_or_initialize_by(name: name)
   end
 
   def score
-    entity.scores.build(score: score)
+    @score ||= entity.scores.build(value: value)
   end
 
   def save
@@ -23,8 +23,7 @@ class ScoreSaver
   def save!
     ActiveRecord::Base.transaction do
       entity.save!
-      score.save!
-      UpdateEntityLatestScore.perform_later entity.id
+      UpdateEntityLatestScoreJob.perform_later entity.id
     end
   end
 end

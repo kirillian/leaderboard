@@ -1,4 +1,4 @@
-class UpdateEntityHighScoreJob < ActiveJob::Base
+class UpdateEntityLatestScoreJob < ActiveJob::Base
   queue_as :default
 
   def perform(entity_id)
