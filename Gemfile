@@ -4,8 +4,11 @@ ruby '2.2.2'
 
 gem 'rails', '4.2.1'
 
+gem 'draper', '~> 1.3'
 gem 'jbuilder', '~> 2.0'
+gem 'oj'
 gem 'pg'
+gem 'rabl'
 gem 'responders'
 gem 'sidekiq'
 gem 'turbolinks'
