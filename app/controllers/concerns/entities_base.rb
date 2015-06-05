@@ -3,17 +3,16 @@ module EntitiesBase
 
   included do
     def index
-      @entity = Entity.
+      @entities = Entity.
         order("score DESC").
         limit(params[:size]).
-        offset(params[:offset]).
-        first
+        offset(params[:offset]).decorate
 
-      respond_with @entity
+      respond_with @entities
     end
 
     def show
-      @entity = Entity.find_by(name: params[:name])
+      @entity = Entity.find_by(name: params[:name]).decorate
     end
 
     def create
