@@ -12,6 +12,8 @@ module API
 
       def show
         @entity = Entity.find_by(name: params[:name]).decorate
+
+        respond_with @entity
       end
 
       def create
