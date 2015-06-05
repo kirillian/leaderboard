@@ -11,6 +11,7 @@ gem 'pg'
 gem 'rabl'
 gem 'responders'
 gem 'sidekiq'
+gem 'sinatra', :require => nil
 gem 'turbolinks'
 
 # CSS
