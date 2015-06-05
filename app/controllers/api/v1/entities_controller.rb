@@ -12,7 +12,7 @@ module API
       end
 
       def index
-        @entities = Entity.
+        @entities = Entity.select(Arel.star).with_rank.
           order("latest_score DESC").
           limit(search_params(params)[:size]).
           offset(search_params(params)[:offset]).decorate
