@@ -12,14 +12,17 @@
 !/log/.keep
 /tmp
 
-# Vagrant files
-cookbooks
-.vagrant
-vagrant.yml
-
 # DotEnv
 .env
 .env.development
 .env.test
 .env.production
 dump.rdb
+
+# SimpleCov
+coverage
+
+# Vagrant files
+cookbooks
+.vagrant
+vagrant.yml

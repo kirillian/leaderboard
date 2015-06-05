@@ -22,18 +22,19 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'uglifier', '>= 1.3.0'
 
+group :development do
+  gem 'puma'
+end
+
 group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.0'
   gem 'rubocop', require: false
+  gem 'simplecov', require: false
   gem 'spring'
   gem 'web-console', '~> 2.0'
-end
-
-group :development do
-  gem 'puma'
 end
 
 group :doc do
@@ -42,4 +43,8 @@ end
 
 group :production do
   gem 'therubyracer', platforms: :ruby # remove if nodejs available. NodeJS is better
+end
+
+group :test do
+  gem 'database_cleaner'
 end
