@@ -9,6 +9,7 @@ SimpleCov.start 'rails' do
   add_group 'Controllers', 'app/controllers'
   add_group 'ControllerConcerns', 'app/controllers/concerns'
   add_group 'Decorators', 'app/decorators'
+  add_group 'Services', 'app/services'
   add_group 'Jobs', 'app/jobs'
 end
 
