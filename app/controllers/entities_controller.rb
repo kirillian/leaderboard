@@ -4,10 +4,10 @@ class EntitiesController < ApplicationController
   respond_to :html
 
   def index
-    @entities = Entity.select(Arel.star).with_rank
-                .order('latest_score DESC')
-                .limit(params[:size])
-                .offset(params[:offset]).decorate
+    @entities = Entity.with_rank
+                .order(latest_score: :desc)
+                .limit(search_params(params)[:size])
+                .offset(search_params(params)[:offset]).decorate
 
     respond_with @entities
   end
