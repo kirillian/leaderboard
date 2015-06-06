@@ -69,6 +69,7 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.include(RSpec::ActiveJob)
+  config.include JsonSpec::Helpers, type: :controller
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction

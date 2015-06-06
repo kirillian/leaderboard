@@ -30,8 +30,6 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-byebug'
   gem 'pry-rails'
-  gem 'rspec-rails', '~> 3.0'
-  gem 'rspec-activejob'
   gem 'rubocop', require: false
   gem 'simplecov', require: false
   gem 'spring'
@@ -48,4 +46,7 @@ end
 
 group :test do
   gem 'database_cleaner'
+  gem 'json_spec'
+  gem 'rspec-rails', '~> 3.0'
+  gem 'rspec-activejob'
 end
