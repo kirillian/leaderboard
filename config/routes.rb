@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   root 'entities#index'
 
   # Frontend Routing
-  resources :entities
+  resources :entities, only: [:index]
 
   # api.leaderboard.com/v1/:resource
   namespace :api, constraints: { subdomain: 'api' } do
