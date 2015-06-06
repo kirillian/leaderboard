@@ -3,7 +3,6 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
-
       before_action only: :index do |_controller|
         render_bad_request if dataset_requested_too_large?(search_params(params)[:size])
       end
