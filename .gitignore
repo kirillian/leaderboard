@@ -12,6 +12,9 @@
 !/log/.keep
 /tmp
 
+# Database.yml
+database.yml
+
 # DotEnv
 .env
 .env.development
