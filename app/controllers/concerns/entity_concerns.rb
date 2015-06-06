@@ -12,7 +12,7 @@ module Concerns
       end
 
       def default_search_params
-        ActionController::Parameters.new({ size: 10, offset: 0 })
+        ActionController::Parameters.new(size: 10, offset: 0)
       end
     end
   end

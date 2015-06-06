@@ -12,8 +12,8 @@ module API
       end
 
       def index
-        @entities = Entity.select(Arel.star).with_rank
-                    .order('latest_score DESC')
+        @entities = Entity.with_rank
+                    .order(latest_score: :desc)
                     .limit(search_params(params)[:size])
                     .offset(search_params(params)[:offset]).decorate
 
@@ -21,7 +21,7 @@ module API
       end
 
       def show
-        entity = Entity.find_by(name: params[:name])
+        entity = Entity.with_rank.where(name: params[:name]).order(latest_score: :desc).first
 
         fail ActiveRecord::RecordNotFound if entity.nil?
 

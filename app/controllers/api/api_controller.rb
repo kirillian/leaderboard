@@ -8,6 +8,8 @@ module API
       render status: :not_found, nothing: true
     end
 
+    protected
+
     def method_missing(method, *args, &block)
       if method =~ /render_(\w+)/
         render status: Regexp.last_match(1).to_sym, nothing: true
