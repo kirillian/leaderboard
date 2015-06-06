@@ -18,7 +18,7 @@ describe UpdateEntityLatestScoreJob do
 
         entity.reload
 
-        expect(entity.latest_score).to eq value.to_s
+        expect(entity.latest_score).to eq value
       end
     end
   end

@@ -3,8 +3,10 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
+  root 'entities#index'
+
   # Frontend Routing
-  resources :entities
+  resources :entities, only: [:index]
 
   # api.leaderboard.com/v1/:resource
   namespace :api, constraints: { subdomain: 'api' } do

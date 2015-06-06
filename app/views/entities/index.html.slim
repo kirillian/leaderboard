@@ -1,0 +1,5 @@
+= content_for :title, "Leaderboard"
+
+section
+  .row
+    = react_component "EntitiesContainer", entitiesPath: api_v1_entities_path(@entities, params.merge(format: :json))

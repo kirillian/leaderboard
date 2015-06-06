@@ -26,29 +26,39 @@ class Leaderboard
 end
 
 def make_random_request
-  choices = [:index, :create, :destroy, :show]
-  random_choice = rand(0..3)
-  send(:"make_#{choices[random_choice]}_request")
+  send(:"make_#{random_choice}_request")
+end
+
+def all_choices
+  [:index, :create, :destroy, :show]
+end
+
+def change_choices
+  [:create, :destroy]
+end
+
+def random_choice
+  change_choices[rand(0..1)]
 end
 
 def make_index_request
-  Leaderboard.index(rand(1..10), rand(0..9))
+  Leaderboard.index(rand(1..100), rand(0..9))
 rescue RestClient::ResourceNotFound
   true
 end
 
 def make_create_request
-  Leaderboard.create("Name#{rand(1..10)}", rand(1..10))
+  Leaderboard.create("Name#{rand(1..100)}", rand(1..100))
 end
 
 def make_destroy_request
-  Leaderboard.destroy("Name#{rand(1..10)}")
+  Leaderboard.destroy("Name#{rand(1..100)}")
 rescue RestClient::ResourceNotFound
   true
 end
 
 def make_show_request
-  Leaderboard.show("Name#{rand(1..10)}")
+  Leaderboard.show("Name#{rand(1..100)}")
 rescue RestClient::ResourceNotFound
   true
 end
@@ -56,5 +66,3 @@ end
 Benchmark.bm do |benchmark|
   benchmark.report { 1000.times { |_| make_random_request } }
 end
-
-sleep(1)
