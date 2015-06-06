@@ -3,10 +3,13 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  protected
 
-  def record_not_found
-    flash[:error] = 'Record not found'
-    redirect_to :index
+  def method_missing(method, *args, &block)
+    if method =~ /render_(\w+)/
+      render status: Regexp.last_match(1).to_sym, nothing: true
+    else
+      super
+    end
   end
 end
