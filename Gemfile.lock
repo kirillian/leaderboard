@@ -1,5 +1,6 @@
 GEM
   remote: https://rubygems.org/
+  remote: https://rails-assets.org/
   specs:
     actionmailer (4.2.1)
       actionpack (= 4.2.1)
@@ -71,6 +72,9 @@ GEM
       request_store (~> 1.0)
     erubis (2.7.0)
     execjs (2.5.2)
+    foundation-rails (5.5.1.2)
+      railties (>= 3.1.0)
+      sass (>= 3.3.0, < 3.5)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
     hitimes (1.2.2)
@@ -132,6 +136,7 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.2.1)
       sprockets-rails
+    rails-assets-modernizr (2.8.3)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.6)
@@ -265,6 +270,7 @@ DEPENDENCIES
   database_cleaner
   dotenv-rails
   draper (~> 1.3)
+  foundation-rails (~> 5.5.1.2)
   jbuilder (~> 2.0)
   jquery-rails
   json_spec
@@ -275,6 +281,7 @@ DEPENDENCIES
   puma
   rabl
   rails (= 4.2.1)
+  rails-assets-modernizr (~> 2.8.3)!
   react-rails (~> 1.0)
   responders
   rspec-activejob
@@ -291,3 +298,6 @@ DEPENDENCIES
   turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
+
+BUNDLED WITH
+   1.10.3

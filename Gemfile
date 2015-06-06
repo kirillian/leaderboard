@@ -5,6 +5,7 @@ ruby '2.2.2'
 gem 'rails', '4.2.1'
 
 gem 'draper', '~> 1.3'
+gem 'foundation-rails', '~> 5.5.1.2'
 gem 'jbuilder', '~> 2.0'
 gem 'oj'
 gem 'pg'
@@ -23,6 +24,10 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'react-rails', '~> 1.0'
 gem 'uglifier', '>= 1.3.0'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-modernizr', '~> 2.8.3'
+end
 
 group :development do
   gem 'puma'
