@@ -1,5 +1,5 @@
 = content_for :title, "Leaderboard"
 
-section.color-gray
+section
   .row
-    = render "entities", entities: @entities
+    = react_component "EntitiesContainer", entitiesPath: api_v1_entities_path(@entities, format: :json)

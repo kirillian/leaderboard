@@ -48,7 +48,7 @@ group :doc do
 end
 
 group :production do
-  gem 'therubyracer', platforms: :ruby # remove if nodejs available. NodeJS is better
+  # gem 'therubyracer', platforms: :ruby # remove if nodejs available. NodeJS is preferable
 end
 
 group :test do
