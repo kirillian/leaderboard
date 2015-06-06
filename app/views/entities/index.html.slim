@@ -2,4 +2,4 @@
 
 section
   .row
-    = react_component "EntitiesContainer", entitiesPath: api_v1_entities_path(@entities, format: :json)
+    = react_component "EntitiesContainer", entitiesPath: api_v1_entities_path(@entities, params.merge(format: :json))
