@@ -24,7 +24,7 @@ fail PASSWORD_ERROR_MESSAGE if settings['postgres']['password'] == 'password'
 project_name = settings['project']['name']
 postgresql_username = settings['postgres']['username']
 postgresql_password = settings['postgres']['password']
-forwarded_ports = settings['forwarded_ports'] || { "3000": 3000 }
+forwarded_ports = settings['forwarded_ports'] || { :"3000" => 3000 }
 
 Vagrant.configure(2) do |config|
   # Prevent problematic caching of synced folders
