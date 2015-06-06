@@ -12,6 +12,7 @@ gem 'rabl'
 gem 'responders'
 gem 'sidekiq'
 gem 'sinatra', require: nil
+gem 'slim-rails'
 gem 'turbolinks'
 
 # CSS
