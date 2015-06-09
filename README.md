@@ -34,6 +34,8 @@ vagrant ssh
 
 ### Initialize the environment
 ```bash
+bundle
+rbenv rehash
 rake db:create
 rake db:schema:load
 ```

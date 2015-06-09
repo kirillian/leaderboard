@@ -167,12 +167,6 @@ Vagrant.configure(2) do |config|
     fi
   SCRIPT
 
-  bundle_script = <<-SCRIPT
-    echo '===== Bundling'
-    bundle
-    rbenv rehash
-  SCRIPT
-
   add_redis_to_startup_script = <<-SCRIPT
     #!/bin/bash
 
@@ -187,5 +181,4 @@ Vagrant.configure(2) do |config|
   config.vm.provision :shell, inline: add_redis_to_startup_script
   config.vm.provision :shell, inline: setup_postgres_script
   config.vm.provision :shell, privileged: false, inline: change_ssh_directory_script
-  config.vm.provision :shell, privileged: false, inline: bundle_script
 end
